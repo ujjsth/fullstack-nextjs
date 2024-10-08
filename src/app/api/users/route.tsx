@@ -3,16 +3,22 @@ import { UserSchema} from "./UserSchema";
 import prisma from "./../../../../prisma/PrismaClient";
 import bcrypt from 'bcrypt';
 
+enum Role{
+    USER = "USER",
+    ARTIST_MANAGER = "ARTIST_MANAGER",
+    ADMIN = "ADMIN"
+}
+
 interface User{
     name: string,
     email: string,
     password: string,
-    role: string,
+    role: Role,
 }
 
 export async function GET(request: NextRequest){
 
-    const allUsers: User[] = await prisma.user.findMany();
+    const allUsers = await prisma.user.findMany();
 
     return NextResponse.json(
         {  users: allUsers, total_count: allUsers.length },

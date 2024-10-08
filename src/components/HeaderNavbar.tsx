@@ -12,6 +12,9 @@ export default function HeaderNavbar() {
             <ul className='flex gap-5'>
                 <li>
                     <Link href="/" className='text-white'>Home</Link>
+                </li> 
+                <li>
+                    <Link href="/users" className='text-white'>Users</Link>
                 </li>                
                 { status === 'loading' && <p className='text-white'>Loading...</p> }
                 {

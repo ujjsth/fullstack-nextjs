@@ -1,0 +1,61 @@
+model User {
+    id            Int      @id @default(autoincrement())
+    name          String
+    email         String   @unique
+    password      String
+    profile_image String?
+    gender        Gender   @default(MALE)
+    role          Role     @default(USER)
+    created_at    DateTime @default(now())
+    updated_at    DateTime @updatedAt
+  
+    Artist Artist[]
+  }
+  
+  model Artist {
+    id                 Int      @id @default(autoincrement())
+    name               String
+    gender             Gender   @default(MALE)
+    dob                String
+    first_release_year String
+    total_albums       Int
+    address            String
+    created_by         Int
+    created_at         DateTime @default(now())
+    updated_at         DateTime @updatedAt
+  
+    user  User    @relation(fields: [created_by], references: [id])
+    Music Music[]
+  }
+  
+  model Music {
+    id         Int      @id @default(autoincrement())
+    title      String
+    album      String
+    Genre      Genre    @default(CLASSIC)
+    artist_id  Int
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
+    artist     Artist   @relation(fields: [artist_id], references: [id])
+  }
+  
+  enum Genre {
+    RNB
+    COUNTRY
+    CLASSIC
+    ROCK
+    JAZZ
+  }
+  
+  enum Gender {
+    MALE
+    FEMALE
+    OTHER
+  }
+  
+  enum Role {
+    USER
+    ARTIST_MANAGER
+    ADMIN
+  }
+  

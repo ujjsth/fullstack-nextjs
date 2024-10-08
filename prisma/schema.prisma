@@ -13,53 +13,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @map("session_token")
+  userId       String   @map("user_id")
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
 model User {
-  id            Int      @id @default(autoincrement())
-  name          String
-  email         String   @unique
-  password      String
-  profile_image String?
-  gender        Gender   @default(MALE)
-  role          Role     @default(USER)
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  password      String?
+  image         String?
+  gender        Gender    @default(MALE)
+  role          Role      @default(USER)
+  accounts      Account[]
+  sessions      Session[]
 
-  Artist Artist[]
+  @@map("users")
 }
 
-model Artist {
-  id                 Int      @id @default(autoincrement())
-  name               String
-  gender             Gender   @default(MALE)
-  dob                String
-  first_release_year String
-  total_albums       Int
-  address            String
-  created_by         Int
-  created_at         DateTime @default(now())
-  updated_at         DateTime @updatedAt
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
 
-  user  User    @relation(fields: [created_by], references: [id])
-  Music Music[]
-}
-
-model Music {
-  id         Int      @id @default(autoincrement())
-  title      String
-  album      String
-  Genre      Genre    @default(CLASSIC)
-  artist_id  Int
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  artist     Artist   @relation(fields: [artist_id], references: [id])
-}
-
-enum Genre {
-  RNB
-  COUNTRY
-  CLASSIC
-  ROCK
-  JAZZ
+  @@unique([identifier, token])
+  @@map("verification_tokens")
 }
 
 enum Gender {
