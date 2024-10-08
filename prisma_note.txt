@@ -1,0 +1,11 @@
+npm install prisma
+npx prisma init
+ - env.
+ - prisma/schema.prisma
+   - modeling
+npx prisma format
+npx prisma migrate dev
+npm install @prisma/client
+
+Best practice for instantiating Prisma Client with Next.js
+https://www.prisma.io/docs/orm/more/help-and-troubleshooting/help-articles/nextjs-prisma-client-dev-practices

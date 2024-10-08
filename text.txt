@@ -1,0 +1,44 @@
+Data Types
+================
+Primitive
+- String: "" || ''
+- number: 98 || 9.111
+- boolean: true || false
+- undefined : undefined
+- null : null
+- symbol
+
+Non-Primitive
+- Array
+- Object
+
+var Student = {
+    name: "Ram",
+    email: "ram@gmail.com"
+}
+
+(.)
+Student.name = "Shyam";
+Student.address = "Tinkune";
+
+Bracket Notation
+let phone = 'phone';
+
+Student[phone] = 98333;
+Student['phone'] = 98333;
+
+
+Task
+===========================
+Make Register Page
+- Make Artist and Music Talbe
+- Prism, MySQL, APIs, CRUD, Zod, React Form Hook
+- State Management Tool: React-Redux (Thunk, Saga), Zustan
+
+Centralize State
+
+
+
+Friday Task
+===========
+CRETE REST API: Artist
